@@ -1,0 +1,15 @@
+{
+  "name": "online-book-store",
+  "version": "1.0.0",
+  "description": "E-commerce university project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "linas mickevicius",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "express3-handlebars": "^0.5.2"
+  }
+}

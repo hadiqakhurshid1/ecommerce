@@ -1,0 +1,5 @@
+#these files will also be ignored in subdirectories of the project
+
+.DS_Store
+*~
+node_modules
