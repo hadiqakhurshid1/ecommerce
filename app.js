@@ -15,9 +15,9 @@ app.set('view engine', 'handlebars');
 
 app.use(express.static(__dirname + '/public'));
 
-app.get('/', function(req, res){
-  res.render('index');
-})
+
+var router = require('./router/index')(app);
+
 
 
 app.listen(app.get('port'), function(){
