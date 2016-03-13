@@ -1,0 +1,25 @@
+<header class="topbar">
+  <div class="topbar-content">
+    <div class="authentication">
+      <a href="/login">login</a>
+      <a href="/register">register</a>
+    </div>
+    <a href="/"><img src="/img/logo.png" alt="logo"></a>
+    <div class="search">
+      <form class="product_search" action="/store" method="post">
+          <select name="search_category">
+            <option value="default">Search by category</option>
+            <option value="programming languages">Programming languages</option>
+            <option value="web development">Web development</option>
+            <option value="databases">Databases</option>
+            <option value="software engineering">Software Engineering</option>
+            <option value="cloudcomputing">Cloud Computing</option>
+            <option value="operating systems">Operating Systems</option>
+            <option value="networking">Networking</option>
+          </select>
+        <input type="search" name="search">
+        <input type="submit" value="Search">
+      </form>
+    </div>
+  </div>
+</header>

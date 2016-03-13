@@ -9,7 +9,16 @@
   "author": "linas mickevicius",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.3.0",
+    "body-parser": "^1.15.0",
+    "connect-flash": "^0.1.1",
+    "csurf": "^1.8.3",
     "express": "^4.13.4",
-    "express3-handlebars": "^0.5.2"
+    "express-session": "^1.13.0",
+    "express-validator": "^2.20.1",
+    "express3-handlebars": "^0.5.2",
+    "mysql": "^2.10.2",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
   }
 }

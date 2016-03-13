@@ -1,0 +1,22 @@
+{{#section 'header'}}
+  {{>header}}
+{{/section}}
+
+
+<div id="main">
+<h1>Login</h1>
+
+<form id="login_form" method="post">
+  <input type="hidden" name="_csrf" id="token" value="{{_csrfToken}}">
+  <label for="username" id="usernameLabel">Username:</label>
+  <input type="text" name="username" id="username" maxlength="32" placeholder="Enter your username">
+  <label for="password" id="passwordLabel">Password:</label>
+  <input type="password" name="password" id="password" placeholder="Enter your password">
+  <input type="submit" value="Log In">
+</form>
+{{credentialsValidation}}
+{{#each loginValidation}}
+<p id="feedback">{{msg}}</p>
+{{/each}}
+
+</div>

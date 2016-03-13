@@ -1,0 +1,28 @@
+{{#section 'header'}}
+  {{>header}}
+{{/section}}
+
+
+<div id="main">
+<h1>Register</h1>
+
+<form id="password_form" method="post">
+  <!-- <input type="hidden" name="_csrf" id="token" value="{{_csrfToken}}"> -->
+  <label for="username" id="usernameLabel">Choose username:</label>
+  <input type="text" name="username" id="username" maxlength="32" placeholder="Choose username">
+  <label for="email" id="emailLabel">Enter your email:</label>
+  <input type="email" name="email" id="email" placeholder="Enter your email">
+  <label for="password" id="passwordLabel">Choose password:</label>
+  <input type="password" name="password" id="password" placeholder="Choose password">
+  <label for="repeatpassword" id="repeatpasswordLabel">Password again:</label>
+  <input type="password" name="repeatpassword" id="repeatpassword" placeholder="Password again">
+  <input type="submit" value="Log In">
+</form>
+{{alreadyExists}}
+{{#each registrationValidation}}
+<p id="feedback">{{msg}}</p>
+{{/each}}
+
+
+
+</div>

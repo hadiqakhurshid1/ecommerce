@@ -1,1 +1,34 @@
-<h1>Welcome to the home page</h1>
+{{#section 'header'}}
+  {{>header}}
+{{/section}}
+
+{{#if user}}
+  <h1>hello user.username</h1>
+{{/if}}
+<div id="main">
+  <div class="slideshow">
+    <img height="300" width="900" name="slide" src="/img/slide1.png"/>
+    <script src="/js/slideshow.js"></script>
+  </div>
+
+</div>
+
+<section id="promotions">
+<h1>Deals</h1>
+  <div class="promo_deals_left">
+    <h2>Save 20%</h2>
+    <p>On database books</p>
+  </div>
+
+  <div class="promo_deals_middle">
+    <h2>Save 15%</h2>
+    <p>On programming books</p>
+  </div>
+
+  <div class="promo_deals_right">
+    <h2>Save 10%</h2>
+    <p>On Networking books</p>
+  </div>
+
+
+</section>
