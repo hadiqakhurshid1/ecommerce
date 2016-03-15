@@ -27,45 +27,71 @@ router.post('/register', passport.authenticate('local-registration', {
   failureFlash: true,
 }));
 
+function returnBooks(category, query, res){
 
-
-router.get('/store', function(req, res){
-  res.render('store');
-});
-
-
-
-
-router.post('/store', function(req, res){
-
-  //trim white space from front and end
-  var searchQuery = req.body.search.replace(/(^\s+|\s+$)/g, '');
-  //if search is empty
-  if(!searchQuery){
-    res.render('store');
-    return;
-  }
-
-
-  if(req.body.search_category !== 'default'){
+  if(category !== 'default'){
     //if search category is set
     //then query only that category
-    connection.query("select * from books where title like ? AND category = ?",['%'+searchQuery+'%',req.body.search_category], function(err, rows){
+    connection.query("select * from books where title like ? AND category = ?",['%'+query+'%',category], function(err, rows){
       console.log(rows);
-      res.render('store', {searchResults: rows});
+      res.render('store/books', {searchResults: rows});
+      return;
     });
 
   }else{
-    //if the search category is default
-    //then query the whole table
-    connection.query("select * from books where title like ?",'%'+searchQuery+'%', function(err, rows){
+    connection.query("select * from books where title like ?",'%'+query+'%', function(err, rows){
       console.log(rows);
-      res.render('store', {searchResults: rows});
+      res.render('store/books', {searchResults: rows});
+      return;
     });
+  }
 
+}
+
+router.get('/store', function(req, res){
+
+  if(!req.query.search_category || !req.query.search){
+    res.render('store/books');
+  }else{
+    var searchCategory = req.query.search_category;
+    var searchQuery = req.query.search;
+    returnBooks(searchCategory, searchQuery, res);
   }
 
 });
+
+router.get('/store/view/:title', function(req, res){
+
+var title = req.params.title;
+title = title.replace(/-+/g, ' ');
+
+  connection.query("select * from books where title = ?",title, function(err, rows){
+    console.log(rows);
+
+    res.render('store/book', {searchResults: rows});
+    return;
+  });
+
+
+});
+
+
+router.get('/store/:category', function(req, res){
+
+  var category = req.params.category;
+
+  connection.query("select * from books where category = ?", category, function(err, rows){
+
+    res.render('store/books', {searchResults: rows});
+    return;
+  });
+
+});
+
+
+
+
+
 
 
 
