@@ -43,7 +43,13 @@ app.use(expressSession({
   saveUninitialized: false,
 }));
 
-
+app.use(function initCart(req, res, next){
+  if(typeof cartSession === 'undefined'){
+    cartSession = req.session;
+    cartSession = [];
+  }
+  return next();
+});
 
 app.use(passport.initialize());
 app.use(passport.session());

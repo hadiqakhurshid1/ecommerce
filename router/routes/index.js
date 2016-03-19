@@ -4,17 +4,6 @@ var passport = require('passport');
 var connection = require('../../models/db.js');
 
 
-
-router.get('/', function initViewCount(req, res, next){
-  if(typeof cartSession === 'undefined'){
-    cartSession = req.session;
-    cartSession = [];
-  }
-  return next();
-});
-
-
-
 router.get('/', function(req, res){
   res.render('index', {user: req.user, cartSize: cartSession.length});
 });
