@@ -5,8 +5,10 @@
 
 <div id="main">
 <h1>Login</h1>
-
+  {{#if redirectTo}}
+  {{/if}}
 <form id="login_form" method="post">
+  <input type="hidden" name="redirectTo" value="{{redirectTo}}">
   <input type="hidden" name="_csrf" id="token" value="{{_csrfToken}}">
   <label for="username" id="usernameLabel">Username:</label>
   <input type="text" name="username" id="username" maxlength="32" placeholder="Enter your username">

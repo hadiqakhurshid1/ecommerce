@@ -1,0 +1,40 @@
+{{#section 'header'}}
+  {{>header}}
+{{/section}}
+
+{{#section 'categoriesHeader'}}
+  {{>categoriesHeader}}
+{{/section}}
+
+<div id="main">
+
+<h1>basket</h1>
+
+<table class="view_search_results">
+  <tr>
+    <th>Cover</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Tags</th>
+    <th>Date</th>
+    <th>Price</th>
+  </tr>
+
+  {{#each cart}}
+  <tr>
+    <td class="view_product_image"> <img src="/img/books/{{image}}" alt="cover photo"> </td>
+    <td class="view_product_name"><a href="/store/view/{{id}}/{{url}}">{{title}}</a> </td>
+    <td class="view_product_description"> {{description}} </td>
+    <td class="view_product_description"> {{tags}} </td>
+    <td class="view_product_price"> {{issueDate}} </td>
+    <td class="view_product_price"> {{price}} </td>
+  </tr>
+  {{/each}}
+
+</table>
+
+<a href="http://localhost:3000/store/cart/checkout">Buy</a>
+
+
+
+</div>

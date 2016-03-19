@@ -37,13 +37,13 @@ app.use(validator());
 
 app.use(express.static(__dirname + '/public'));
 
-
-
 app.use(expressSession({
   secret: 'whats sink dkjsda',
   resave: true,
   saveUninitialized: false,
 }));
+
+
 
 app.use(passport.initialize());
 app.use(passport.session());

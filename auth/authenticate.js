@@ -3,7 +3,9 @@ var isAuthenticated = function (req, res, next) {
 	if (req.isAuthenticated()){
 		return next();
   }else{
-	   res.redirect('/');
+		 var path = req.path;
+		 req.flash('redirectTo', 'store'+path);
+	   res.redirect('/login');
    }
 }
 

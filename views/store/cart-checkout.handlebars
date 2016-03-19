@@ -1,0 +1,21 @@
+<h1>Cart checkout page</h1>
+
+<div id="main">
+  <h2>Enter your shipping details:</h2>
+
+  <form action="http://localhost:3000/store/cart/checkout" method="post">
+    <select name="title">
+      <option value="default">Title</option>
+      <option value="mr">Mr.</option>
+      <option value="mrs">Mrs.</option>
+    </select>
+    <input type="text" name="name" placeholder="first name" required>
+    <input type="text" name="surname" placeholder="last name" required>
+    <input type="text" name="address" placeholder="address" required>
+    <input type="text" name="city" placeholder="city" required>
+    <input type="text" name="postcode" placeholder="postcode" required>
+    <input type="text" name="phonenumber" placeholder="phone number" required>
+    <input type="submit" value="Buy">
+  </form>
+
+</div>

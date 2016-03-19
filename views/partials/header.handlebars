@@ -1,8 +1,58 @@
 <header class="topbar">
   <div class="topbar-content">
     <div class="authentication">
-      <a id="login_button" href="/login">login</a>
+
+      {{#section 'jquery'}}
+        <script>
+        $(document).ready(function(){
+
+            $('#addbasket').click(function(event){
+              event.preventDefault();
+
+              $.ajax({
+                url:'/store/add-to-cart/'+id,
+                type: 'POST',
+                cache: false,
+                error: function(xhr, error){
+                  //this gets executed only when the user clicks submit
+                  //after the server has been shut down
+                  console.log('error executed');
+                  if(xhr.status === 0){
+                    console.log('not connected, verify network connection');
+                  }else if(xhr.status == 404){
+                    console.log('requested page not found 404');
+                  }else if(xhr.status == 500){
+                    console.log('internal server error 500');
+                  }else if(error === 'timeout'){
+                    console.log('time out errro');
+                  }else if(error === 'abort'){
+                    console.log('ajax request aborted');
+                  }else{
+                    console.log('uncaught error');
+                  }
+                },
+                success: function(response){
+                  console.log('success part executed');
+                  $("#headerCart").text('Cart: '+response.data);
+                }
+              });
+
+            });
+        });
+
+        </script>
+      {{/section}}
+
+
+      <a href="http://localhost:3000/store/cart" id="headerCart">Cart: {{cartSize}}</a>
+
+      {{#unless user}}
+      <a href="/login">login</a>
       <a href="/register">register</a>
+      {{/unless}}
+      {{#if user}}
+      <a href="/logout">logout</a>
+      {{/if}}
     </div>
     <a href="/"><img src="/img/logo.png" alt="logo"></a>
     <div class="search">

@@ -1,0 +1,26 @@
+<h1>checkout page</h1>
+
+{{#each buyNow}}
+  {{title}}
+  £{{price}}
+{{/each}}
+
+<div id="main">
+  <h2>Enter your shipping details:</h2>
+
+  <form method="post">
+    <select>
+      <option name="default">Title</option>
+      <option name="mr">Mr.</option>
+      <option name="mrs">Mrs.</option>
+    </select>
+    <input type="text" name="name" placeholder="first name" required>
+    <input type="text" name="surname" placeholder="last name" required>
+    <input type="text" name="address" placeholder="address" required>
+    <input type="text" name="city" placeholder="city" required>
+    <input type="text" name="postcode" placeholder="postcode" required>
+    <input type="text" name="phonenumber" placeholder="phone number" required>
+    <input type="submit" value="Buy">
+  </form>
+
+</div>
