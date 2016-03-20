@@ -139,6 +139,40 @@ html, body{
 
 
 
+/* Login page*/
+.authentication_title{
+  padding-top: 80px;
+  padding-left:300px;
+  font-size: 28px;
+}
+#authentication_form {
+  padding-left:300px;
+}
+#authentication_form label{
+  display:block;
+  margin-bottom:10px;
+}
+#authentication_form input{
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  padding: 10px;
+  border-style: none;
+  border:1px solid rgba(70, 70, 70, 0.2);
+  border-radius: 5px;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 10px;
+  width: 300px;
+}
+#authentication_form input[type="submit"]{
+  border-style: none;
+  background: #06e589;
+  border:1px solid rgb(6, 229, 137);
+  color: #fff;
+  font-size: 14px;
+}
 
 
 

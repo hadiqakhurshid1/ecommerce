@@ -2,12 +2,14 @@
   {{>header}}
 {{/section}}
 
+{{#section 'categoriesHeader'}}
+  {{>categoriesHeader}}
+{{/section}}
 
 <div id="main">
-<h1>Login</h1>
-  {{#if redirectTo}}
-  {{/if}}
-<form id="login_form" method="post">
+<h1 class="authentication_title">Login</h1>
+
+<form id="authentication_form" method="post">
   <input type="hidden" name="redirectTo" value="{{redirectTo}}">
   <input type="hidden" name="_csrf" id="token" value="{{_csrfToken}}">
   <label for="username" id="usernameLabel">Username:</label>
