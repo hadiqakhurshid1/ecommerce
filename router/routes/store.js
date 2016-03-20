@@ -5,8 +5,10 @@ var connection = require('../../models/db.js');
 var isauth = require('../../auth/authenticate.js');
 
 
-function addOrUpdateShippingDetails(){
+function addOrUpdateShippingDetails(req){
   var userID = req.user[0].id;
+  //add checks for checking that form fields aren't empty and consist of valid characters
+  //dont need to escape input because mysql's prepared statements (added using ?) will do that for us
   var customerPost = {user_id: userID, title: req.body.title, name: req.body.name, surname: req.body.surname, address: req.body.address, city: req.body.city, postcode: req.body.postcode, phoneNumber: req.body.phonenumber};
 
   connection.query("SELECT user_id FROM customer WHERE user_id = ?", userID, function(err, rows){
@@ -17,6 +19,8 @@ function addOrUpdateShippingDetails(){
         console.log('inserted customer');
       });
     }else{
+      //if no details have changed then the fields do not get updated
+      //changedRows returns the the rows that were updated
       connection.query("UPDATE customer SET ?", customerPost, function(err, rows){
         if(err) return console.log(error);
         console.log('changed ' + rows.changedRows + ' rows');
@@ -30,8 +34,19 @@ router.get('/', function(req, res){
   var searchCategory = req.query.search_category;
   var searchQuery = req.query.search;
 
-    if(searchCategory && searchQuery){
-      connection.query("select * from books where title like ? AND category = ?",['%'+searchQuery+'%',searchCategory], function(err, rows){
+    if(searchCategory === 'default' && searchQuery){
+      connection.query("select * from books where title regexp ?",'[[:<:]]'+searchQuery+'[[:>:]]', function(err, rows){
+        res.render('store/books', {searchResults: rows, user: req.user, cartSize: cartSession.length});
+        return;
+      });
+
+    }else if(searchCategory !== 'default' && searchQuery){
+      connection.query("select * from books where title regexp ? AND category = ?",['[[:<:]]'+searchQuery+'[[:>:]]',searchCategory], function(err, rows){
+        res.render('store/books', {searchResults: rows, user: req.user, cartSize: cartSession.length});
+        return;
+      });
+    }else if(searchCategory !== 'default' && !searchQuery){
+      connection.query("select * from books where category = ?",searchCategory, function(err, rows){
         res.render('store/books', {searchResults: rows, user: req.user, cartSize: cartSession.length});
         return;
       });
@@ -43,7 +58,6 @@ router.get('/', function(req, res){
       });
     }
 });
-
 
 //this gets executed when the user clicks on a book to view it
 router.get('/view/:id/:title', function(req, res){
@@ -72,7 +86,7 @@ router.get('/category/:category', function(req, res){
 // ************ CART FUNCTIONALITY ********************
 //this gets executed when the opens their cart
 router.get('/cart', function(req, res){
-  res.render('store/cart', {cart: cartSession, cartSize: cartSession.length});
+  res.render('store/cart', {cart: cartSession, user: req.user, cartSize: cartSession.length});
 });
 
 //this gets executed when the user clicks add item to basket
@@ -83,14 +97,18 @@ router.post('/add-to-cart/:id', function(req, res){
        console.error(err);
      }else{
        cartSession.push(rows[0]);
-       res.json({data: cartSession.length})
+       res.json({"data": cartSession.length});
      }
   });
 });
 
 //this gets executed when the user clicks checkout when inside the cart page
 router.get('/cart/checkout', isauth, function(req, res){
-  res.render('store/cart-checkout');
+  var totalPrice=0;
+  for(var i=0; i<cartSession.length; i++){
+    totalPrice += cartSession[i].price;
+  }
+  res.render('store/cart-checkout', {priceToPay: totalPrice, user: req.user, cartSize: cartSession.length});
 });
 
 //this gets executed when the user enters their shipping details and clicks buy
@@ -98,7 +116,7 @@ router.post('/cart/checkout', isauth, function(req, res){
   var time = new Date();
   var userID = req.user[0].id;
 
-  addOrUpdateShippingDetails();
+  addOrUpdateShippingDetails(req);
 
   for(var i=0; i<cartSession.length; i++){
     var cartbookid = cartSession[i].id;
@@ -110,23 +128,9 @@ router.post('/cart/checkout', isauth, function(req, res){
         });
     });
   }
-
   res.redirect('/store/checkout/completed/thank-you');
 });
-
 // ************ END OF - CART FUNCTIONALITY **************
-
-
-
-
-
-
-
-
-
-
-
-
 
 // ************ SINGLE ITEM BUY FUNCTIONALITY **************
 //this gets executed when the user clicks buy now on a book instead of adding it to the cart
@@ -134,7 +138,7 @@ router.get('/checkout/:id', isauth, function(req, res){
   var id = req.params.id;
 
   connection.query("select title, price from books where id = ?", id, function(err, rows){
-    res.render('store/checkout',{buyNow: rows, cartSize: cartSession.length});
+    res.render('store/checkout',{book: rows, user: req.user, cartSize: cartSession.length});
     return;
   });
 });
@@ -145,7 +149,7 @@ router.post('/checkout/:id', isauth, function(req, res){
   var bookID = req.params.id;
   var userID = req.user[0].id;
 
-  addOrUpdateShippingDetails();
+  addOrUpdateShippingDetails(req);
 
   connection.query("SELECT price FROM books WHERE id = ?", bookID, function(err, rows){
     var post = {purchaseDate: time, amountPaid: rows[0].price, books_id: bookID, customer_id: userID};
@@ -156,13 +160,15 @@ router.post('/checkout/:id', isauth, function(req, res){
       res.redirect('/store/checkout/completed/thank-you');
       }
     });
-  });
+  });//end of top query
 });
 // ************ END OF - SINGLE ITEM BUY FUNCTIONALITY **************
 
 //this gets executed when the user has purchased an item
 router.get('/checkout/completed/thank-you', function(req, res){
-  res.render('store/checkout-thank-you');
+  //clear the cart
+  cartSession = [];
+  res.render('store/checkout-thank-you', {user: req.user, cartSize: cartSession.length});
 });
 
 
