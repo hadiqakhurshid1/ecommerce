@@ -39,7 +39,6 @@ router.get('/', function(req, res){
         res.render('store/books', {searchResults: rows, user: req.user, cartSize: cartSession.length});
         return;
       });
-
     }else if(searchCategory !== 'default' && searchQuery){
       connection.query("select * from books where title regexp ? AND category = ?",['[[:<:]]'+searchQuery+'[[:>:]]',searchCategory], function(err, rows){
         res.render('store/books', {searchResults: rows, user: req.user, cartSize: cartSession.length});
@@ -60,7 +59,7 @@ router.get('/', function(req, res){
 });
 
 //this gets executed when the user clicks on a book to view it
-router.get('/view/:id/:title', function(req, res){
+router.get('/view/book/:id/:title', function(req, res){
   var id = req.params.id;
   var title = req.params.title;
   //replace dashes with space to recover the correct title and then use it
@@ -82,6 +81,30 @@ router.get('/category/:category', function(req, res){
     return;
   });
 });
+
+
+
+
+
+
+router.get('/view/tag/:tag', function(req, res){
+  var tag = req.params.tag;
+
+  connection.query("SELECT * FROM books WHERE tags = ? OR tags2 = ?", [tag, tag], function(err, rows){
+    if(err){
+       console.error(err);
+     }else{
+       res.render('store/books', {searchResults: rows, user: req.user, cartSize: cartSession.length});
+       return;
+     }
+  });
+});
+
+
+
+
+
+
 
 // ************ CART FUNCTIONALITY ********************
 //this gets executed when the opens their cart
