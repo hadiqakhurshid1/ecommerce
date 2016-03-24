@@ -8,22 +8,42 @@
 
 <div id="main">
 
+  <table class="search_results">
+    <tr>
+      <th>Cover</th>
+      <th>Description</th>
+      <th>Date</th>
+      <th>Price</th>
+    </tr>
 
     {{#each searchResults}}
-    <script>
-      var id = {{id}};
-    </script>
-    <ul>
-      <li> <img src="/img/books/{{image}}" alt="cover photo"> </li>
-      <li> <a href="/store/view/{{title}}">{{title}}</a> </li>
-      <li> {{description}} </li>
-      <li> {{tags}} </li>
-      <li> {{issueDate}} </li>
-      <li> {{price}} </li>
-      <li> <a href="http://localhost:3000/store/checkout/{{id}}">Buy now!</a> </li>
-      <li> <a href="http://localhost:3000/store/cart/{{id}}" id="addbasket">Add to basket</a> </li>
-    </ul>
+    <tr>
+      <td class="books_cover"> <img src="/img/books/{{image}}" alt="cover photo"> </td>
+      <td class="books_description">
+        <a class="title" href="/store/view/book/{{id}}/{{url}}">{{title}}</a>
+        <p>{{description}}</p>
+        <p class="tag"><a href="/store/view/tag/{{tags}}">{{tags}}</a></p>
+        {{#if tags2}}
+        <p class="tag"><a href="/store/view/tag/{{tags2}}">{{tags2}}</a></p>
+        {{/if}}
+      </td>
+      <td class="books_date"> {{issueDate}} </td>
+      <td class="books_price"> £{{price}} </td>
+    </tr>
     {{/each}}
+  </table>
+
+  {{#each searchResults}}
+  <form class="checkout_with_quantity" method="GET">
+     <p class="quantity_p">Quantity: </p><input id="quantity" type="text" name="quantity" value="1">
+     <input type="submit" value="Buy now!" formaction="http://localhost:3000/store/checkout/{{id}}">
+     <input id="addbasket" type="submit" value="Add to basket" formaction="">
+</form>
+<!-- <ul class="checkout_links">
+  <li> <a id="addbasket" href="http://localhost:3000/store/cart/{{id}}">Add to basket</a> </li>
+</ul> -->
+{{/each}}
+
 
 
 

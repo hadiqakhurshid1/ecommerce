@@ -1,9 +1,15 @@
-<h1>Cart checkout page</h1>
+{{#section 'header'}}
+  {{>header}}
+{{/section}}
+
+{{#section 'categoriesHeader'}}
+  {{>categoriesHeader}}
+{{/section}}
 
 <div id="main">
-  <h2>Enter your shipping details:</h2>
+  <h2 class="checkout_title">Enter your shipping details</h2>
 
-  <form action="http://localhost:3000/store/cart/checkout" method="post">
+  <form id="submission_form" action="http://localhost:3000/store/cart/checkout" method="post">
     <select name="title">
       <option value="default">Title</option>
       <option value="mr">Mr.</option>
@@ -15,7 +21,19 @@
     <input type="text" name="city" placeholder="city" required>
     <input type="text" name="postcode" placeholder="postcode" required>
     <input type="text" name="phonenumber" placeholder="phone number" required>
+
+    <select name="cardtype">
+      <option name="default">Choose card</option>
+      <option name="credit">Credit</option>
+      <option name="debit">Debit</option>
+    </select>
+    <input type="text" name="nameoncard" placeholder="Name as appears on the card" required>
+    <input type="text" name="cardnumber" placeholder="Card number" required>
+    <input type="text" name="expirydate" placeholder="Expiry date" required>
+    <input type="text" name="secretcode" placeholder="Secret code on the back" required>
+    
     <input type="submit" value="Buy">
   </form>
+  <p class="total_amount_to_pay">Total amount to pay: £{{priceToPay}}</p>
 
 </div>

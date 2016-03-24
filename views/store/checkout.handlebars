@@ -1,15 +1,16 @@
-<h1>checkout page</h1>
+{{#section 'header'}}
+  {{>header}}
+{{/section}}
 
-{{#each buyNow}}
-  {{title}}
-  £{{price}}
-{{/each}}
+{{#section 'categoriesHeader'}}
+  {{>categoriesHeader}}
+{{/section}}
 
 <div id="main">
-  <h2>Enter your shipping details:</h2>
+  <h2 class="checkout_title">Enter your shipping details</h2>
 
-  <form method="post">
-    <select>
+  <form id="submission_form" method="post">
+    <select name="title">
       <option name="default">Title</option>
       <option name="mr">Mr.</option>
       <option name="mrs">Mrs.</option>
@@ -20,7 +21,19 @@
     <input type="text" name="city" placeholder="city" required>
     <input type="text" name="postcode" placeholder="postcode" required>
     <input type="text" name="phonenumber" placeholder="phone number" required>
+
+    <select name="cardtype">
+      <option name="default">Choose card</option>
+      <option name="credit">Credit</option>
+      <option name="debit">Debit</option>
+    </select>
+    <input type="text" name="nameoncard" placeholder="Name as appears on the card" required>
+    <input type="text" name="cardnumber" placeholder="Card number" required>
+    <input type="text" name="expirydate" placeholder="Expiry date" required>
+    <input type="text" name="secretcode" placeholder="Secret code on the back" required>
+
+
     <input type="submit" value="Buy">
   </form>
-
+    <p class="total_amount_to_pay">Total amount to pay: £{{priceToPay}}</p>
 </div>

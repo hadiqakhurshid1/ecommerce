@@ -8,8 +8,6 @@
 
 <div id="main">
 
-
-
   <table class="search_results">
     <tr>
       <th>Cover</th>
@@ -22,7 +20,7 @@
     <tr>
       <td class="books_cover"> <a href="/store/view/book/{{id}}/{{url}}"><img src="/img/books/{{image}}" alt="cover photo"></a> </td>
       <td class="books_description">
-        <a href="/store/view/book/{{id}}/{{url}}">{{title}}</a>
+        <a class="title" href="/store/view/book/{{id}}/{{url}}">{{title}}</a>
         <p>{{description}}</p>
         <p class="tag"><a href="/store/view/tag/{{tags}}">{{tags}}</a></p>
         {{#if tags2}}
@@ -35,6 +33,5 @@
     {{/each}}
 
   </table>
-
 
 </div>

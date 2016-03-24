@@ -8,9 +8,9 @@
 
             $('#addbasket').click(function(event){
               event.preventDefault();
-
+              var quantity = $('#quantity').val();
               $.ajax({
-                url:'/store/add-to-cart/'+id,
+                url:'/store/add-to-cart/'+{{bookID}}+'?quantity='+quantity,
                 type: 'POST',
                 cache: false,
                 error: function(xhr, error){
