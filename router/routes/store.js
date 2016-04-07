@@ -90,22 +90,17 @@ router.get('/category/:category', function(req, res){
   });
 });
 
-
+//this gets executed via AJAX request when the user scrolls to the bottom of the page
+//it simply loads the next 5 books and returns them via json response
 router.post('/category/:category', function(req, res){
   var category = req.params.category;
   var counter = Number(req.body.count);
 
   connection.query("select * from books where category = ? ORDER BY issueDate DESC LIMIT 5 OFFSET ?", [category, counter], function(err, rows){
-    res.json({lol: rows});
+    res.json({"data": rows});
   });
 
 });
-
-
-
-
-
-
 
 
 router.get('/view/tag/:tag', function(req, res){
@@ -122,29 +117,13 @@ router.get('/view/tag/:tag', function(req, res){
 });
 
 
-
-
-
-
-
 // ************ CART FUNCTIONALITY ********************
 //this gets executed when the opens their cart
 router.get('/cart', function(req, res){
   res.render('store/cart', {cart: cartSession, user: req.user, cartSize: cartSession.length});
 });
 
-//this gets executed when the user clicks add item to basket
-// router.post('/add-to-cart/:id', function(req, res){
-//   var id = req.params.id;
-//   connection.query("SELECT * FROM books where id =?", id, function(err, rows){
-//     if(err){
-//        console.error(err);
-//      }else{
-//        cartSession.push(rows[0]);
-//        res.json({"data": cartSession.length});
-//      }
-//   });
-// });
+
 router.post('/add-to-cart/:id', function(req, res){
   var id = req.params.id;
   var quantity = req.query.quantity;

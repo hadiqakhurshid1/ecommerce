@@ -65,9 +65,7 @@
           },
           success: function(response){
             console.log('success part executed');
-          //  console.log(response.data);
-        //  console.log(response.lol[0].id);
-          var len = response.lol.length;
+            var len = response.data.length;
 
 
           function constructReturnedBooks(i){
@@ -76,24 +74,25 @@
 
             var end_td = '</td>';
 
-            var img = '<img src="/img/books/'+response.lol[i].image+"\""+'alt="cover cover">';
-            var book_cover = '<td class="books_cover"> <a href="/store/view/book/' +response.lol[0].id+'/'+response.lol[i].url+"\""+'>'+img+'</a></td>';
+            var img = '<img src="/img/books/'+response.data[i].image+"\""+'alt="cover cover">';
+            var book_cover = '<td class="books_cover"> <a href="/store/view/book/' +response.data[0].id+'/'+response.data[i].url+"\""+'>'+img+'</a></td>';
 
 
-            var books_description1 = '<td class="books_description>"><a class="title" ahref="/store/view/book/'+response.lol[i].id+'/'+response.lol[i].url+"\""+'>'+response.lol[i].title+'</a>';
-            var books_description2 = '<p>'+response.lol[i].description+'</p>';
-            var books_description3 = '<p class="tag"><a href="/store/view/tag/'+response.lol[i].tags+"\""+'>'+response.lol[i].tags+'</a></p>';
-            var books_descriptionFinal = books_description1 + books_description2 + books_description3;
+            var books_description1 = '<td class="books_description>"><a class="title" ahref="/store/view/book/'+response.data[i].id+'/'+response.data[i].url+"\""+'>'+response.data[i].title+'</a>';
+            var books_description2 = '<p>'+response.data[i].description+'</p>';
+            var books_description3 = '<p class="tag"><a href="/store/view/tag/'+response.data[i].tags+"\""+'>'+response.data[i].tags+'</a></p>';
 
-            if(books_description4){
-              var books_description4 = '<p class="tag"><a href="/store/view/tag/'+response.lol[i].tags2+"\""+'>'+response.lol[i].tags2+'</a></p>';
+            var books_date = '<td class="books_date">'+response.data[i].issueDate+'</td>';
+            var books_price = '<td class="books_price">£'+response.data[i].price+'</td>';
+
+
+            if(response.data[i].tags2){
+              var books_description4 = '<p class="tag"><a href="/store/view/tag/'+response.data[i].tags2+"\""+'>'+response.data[i].tags2+'</a></p>';
+              var books_descriptionFinal = books_description1 + books_description2 + books_description3 + books_description4 + end_td;
+            }else{
+              var books_descriptionFinal = books_description1 + books_description2 + books_description3 + end_td;
             }
-
-            var books_date = '<td class="books_date">'+response.lol[i].issueDate+'</td>';
-            var books_price = '<td class="books_price">£'+response.lol[i].price+'</td>';
-
-
-            var fullListItem = start_tr + book_cover + books_descriptionFinal + end_td + books_date + books_price + end_tr;
+            var fullListItem = start_tr + book_cover + books_descriptionFinal + books_date + books_price + end_tr;
 
             return fullListItem;
           }
