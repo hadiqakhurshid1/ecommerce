@@ -84,11 +84,24 @@ router.get('/view/book/:id/:title', function(req, res){
 router.get('/category/:category', function(req, res){
   var category = req.params.category;
 
-  connection.query("select * from books where category = ? ORDER BY issueDate DESC", category, function(err, rows){
-    res.render('store/books', {searchResults: rows, user: req.user, cartSize: cartSession.length});
+  connection.query("select * from books where category = ? ORDER BY issueDate DESC LIMIT 5", category, function(err, rows){
+    res.render('store/books', {searchResults: rows, user: req.user, cartSize: cartSession.length, category, category});
     return;
   });
 });
+
+
+router.post('/category/:category', function(req, res){
+  var category = req.params.category;
+  var counter = Number(req.body.count);
+
+  connection.query("select * from books where category = ? ORDER BY issueDate DESC LIMIT 5 OFFSET ?", [category, counter], function(err, rows){
+    res.json({lol: rows});
+  });
+
+});
+
+
 
 
 
